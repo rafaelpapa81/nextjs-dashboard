@@ -1,10 +1,12 @@
 'use client';
 
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 
 export default function Search({ placeholder }: { placeholder: string }) {
   const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter(); // why the curly brackets: returns an object, and we are using destructuring to extract specific properties of that object
 
   function handleSearch(term: string) {
     // console.log(`Searching for ${term}`);
@@ -15,6 +17,8 @@ export default function Search({ placeholder }: { placeholder: string }) {
     } else {
       params.delete('query');
     }
+
+    replace(`${pathname}?${params.toString()}`);
   }
 
   return (
