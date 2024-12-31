@@ -1,5 +1,6 @@
 'use client';
 
+import { useDebouncedCallback } from 'use-debounce';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 
@@ -8,8 +9,9 @@ export default function Search({ placeholder }: { placeholder: string }) {
   const pathname = usePathname();
   const { replace } = useRouter(); // why the curly brackets: returns an object, and we are using destructuring to extract specific properties of that object
 
-  function handleSearch(term: string) {
-    // console.log(`Searching for ${term}`);
+  //function handleSearch(term: string) {
+  const handleSearch = useDebouncedCallback((term) => {
+    console.log(`Searching for ${term}`);
     const params = new URLSearchParams(searchParams);
 
     if (term) {
@@ -19,7 +21,7 @@ export default function Search({ placeholder }: { placeholder: string }) {
     }
 
     replace(`${pathname}?${params.toString()}`);
-  }
+  }, 300);
 
   return (
     <div className="relative flex flex-1 flex-shrink-0">
