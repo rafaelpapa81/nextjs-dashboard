@@ -5,8 +5,14 @@ import { lusitana } from '@/app/ui/fonts';
 import { fetchRevenue, fetchLatestInvoices, fetchCardData } from '@/app/lib/data';
  
 export default async function Page() {
+
+  // the code below fetches the data from the database and creates a waterfall of promises
+  // this impact the performance of the page
+  // sometimes we want that, sometimes we dont
   const revenue = await fetchRevenue();
   const latestInvoices = await fetchLatestInvoices();
+
+  // destructure the object returned from fetchCardData
   const {totalPaidInvoices, totalPendingInvoices, numberOfInvoices, numberOfCustomers} = await fetchCardData();
 
   return (
