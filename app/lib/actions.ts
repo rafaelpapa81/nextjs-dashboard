@@ -3,6 +3,7 @@
 import { z } from 'zod';
 import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 
 // coerce (change) the type of the amount field from string to number
 const FormSchema = z.object({
@@ -42,5 +43,6 @@ export async function createInvoice(formData: FormData) {
   `;
 
   revalidatePath('/dashboard/invoices');
+  redirect('/dashboard/invoices');
 
 }
