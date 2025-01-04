@@ -5,7 +5,7 @@ import LatestInvoices from '@/app/ui/dashboard/latest-invoices';
 import { lusitana } from '@/app/ui/fonts';
 //import { fetchRevenue, fetchLatestInvoices, fetchCardData } from '@/app/lib/data';
 //import { fetchLatestInvoices, fetchCardData } from '@/app/lib/data';
-import { fetchCardData } from '@/app/lib/data';
+//import { fetchCardData } from '@/app/lib/data';
 import { Suspense } from 'react';
 import { 
   RevenueChartSkeleton, 
@@ -27,7 +27,7 @@ export default async function Page() {
   // const latestInvoices = await fetchLatestInvoices();
 
   // destructure the object returned from fetchCardData
-  const {totalPaidInvoices, totalPendingInvoices, numberOfInvoices, numberOfCustomers} = await fetchCardData();
+  // const {totalPaidInvoices, totalPendingInvoices, numberOfInvoices, numberOfCustomers} = await fetchCardData();
 
   return (
     <main>
