@@ -4,18 +4,20 @@ import { fetchFilteredCustomers } from '@/app/lib/data';
 
 export default async function CustomersTable({
   query,
+  currentPage,
 }: {
   query: string;
+  currentPage: number;
 }) {
   return (
-    <Suspense key={query} fallback={<div>Loading...</div>}>
-      <TableContent query={query} />
+    <Suspense key={query + currentPage} fallback={<div>Loading...</div>}>
+      <TableContent query={query} currentPage={currentPage} />
     </Suspense>
   );
 }
 
-async function TableContent({ query }: { query: string }) {
-  const customers = await fetchFilteredCustomers(query);
+async function TableContent({ query, currentPage }: { query: string; currentPage: number }) {
+  const customers = await fetchFilteredCustomers(query, currentPage);
 
   if (!customers?.length) {
     return <div className="p-4">No customers found.</div>;
