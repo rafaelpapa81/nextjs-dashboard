@@ -36,7 +36,7 @@ export type State = {
 };
 
 export async function createInvoice(prevState: State, formData: FormData) {
-  
+  // Validate form fields
   const validatedFields = CreateInvoice.safeParse({
     customerId: formData.get('customerId'),
     amount: formData.get('amount'),
@@ -49,7 +49,7 @@ export async function createInvoice(prevState: State, formData: FormData) {
     console.log(">> here >>", validatedFields.error.flatten().fieldErrors);
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing Fields. Failed to Create Invoice.',
+      message: 'Please fill in all required fields.',
     };
   }
   
@@ -65,9 +65,10 @@ export async function createInvoice(prevState: State, formData: FormData) {
       VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
     `;
   } catch (error) {
-    // If a database error occurs, return a more specific error.
+    // Log the error for debugging purposes
+    console.error('Failed to create invoice:', error);
     return {
-      message: 'Database Error: Failed to Create Invoice',
+      message: `Database Error: Failed to Create Invoice. ${error instanceof Error ? error.message : 'Please try again later.'}`,
     };
   }
 
@@ -92,8 +93,10 @@ export async function updateInvoice(id: string, formData: FormData) {
       WHERE id = ${id}
     `;
   } catch (error) {
+    // Log the error for debugging purposes
+    console.error('Failed to update invoice:', error);
     return {
-      message: 'Database Error: Failed to Update Invoice',
+      message: `Database Error: Failed to Update Invoice. ${error instanceof Error ? error.message : 'Please try again later.'}`,
     };
   }
   revalidatePath('/dashboard/invoices');
@@ -107,7 +110,11 @@ export async function deleteInvoice(id: string) {
     revalidatePath('/dashboard/invoices');
     return { message: 'Deleted Invoice.' };
   } catch (error) {
-    return { message: 'Database Error: Failed to Delete Invoice.' };
+    // Log the error for debugging purposes
+    console.error('Failed to delete invoice:', error);
+    return { 
+      message: `Database Error: Failed to Delete Invoice. ${error instanceof Error ? error.message : 'Please try again later.'}`,
+    };
   }
 }
 
