@@ -27,35 +27,13 @@ export function UpdateInvoice({ id }: { id: string }) {
   );
 }
 
-// export function DeleteInvoice({ id }: { id: string }) {
-//   const deleteInvoiceWithId = deleteInvoice.bind(null, id);
-//   return (
-//     <form action={deleteInvoiceWithId}>
-//       <button type="submit" className="rounded-md border p-2 hover:bg-gray-100">
-//         <span className="sr-only">Delete</span>
-//         <TrashIcon className="w-5" />
-//       </button>
-//     </form>
-//   );
-// }
 export function DeleteInvoice({ id }: { id: string }) {
-  const deleteInvoiceWithId = async (formData: FormData) => {
-    try {
-      await deleteInvoice(id);
-      // Handle success, e.g., redirect or show a success message
-    } catch (error) {
-      console.error('Error deleting invoice:', error);
-      // Handle error, e.g., show an error message
-    }
+  const deleteInvoiceWithId = async () => {
+    await deleteInvoice(id);
   };
 
   return (
-    <form
-      onSubmit={async (e) => {
-        e.preventDefault();
-        await deleteInvoiceWithId(new FormData(e.currentTarget));
-      }}
-    >
+    <form action={deleteInvoiceWithId}>
       <button type="submit" className="rounded-md border p-2 hover:bg-gray-100">
         <span className="sr-only">Delete</span>
         <TrashIcon className="w-5" />
